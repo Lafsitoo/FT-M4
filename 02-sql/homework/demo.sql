@@ -98,3 +98,27 @@ id IN (
 
 # 11 # Buscá actores que actuaron en cinco o más roles en la misma película después del año 1990. Noten que los ROLES pueden tener duplicados ocasionales, sobre los cuales no estamos interesados: queremos actores que hayan tenido cinco o más roles DISTINTOS (DISTINCT cough cough) en la misma película. Escribí un query que retorne los nombres del actor, el título de la película y el número de roles (siempre debería ser > 5).
 
+SELECT a.first_name, a.last_name, COUNT(DISTINCT(r.role)) as Total
+FROM actors as a 
+join roles as r on a.id = r.actor_id
+join movies as m on m.id = r.movie_id
+WHERE m.year > 1990
+GROUP BY r.movie_id, r.actor_id
+having Total > 5;
+
+# 12 # Para cada año, contá el número de películas en ese años que sólo tuvieron actrices femeninas.
+
+SELECT r.movie_id
+FROM roles as r
+join actors as a on r.actor_id = a.id
+WHERE a.genre = 'M'
+
+SELECT year, COUNT(DISTINCT id)
+FROM movies WHERE
+id NOT IN(
+    SELECT r.movie_id
+    FROM roles as r 
+    join actors as a on r.actor_id = a.id
+    WHERE a.gender = 'M'
+)
+GROUP BY year;
