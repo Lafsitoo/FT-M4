@@ -8,13 +8,13 @@ describe('Character Routes', () => {
   })
 
   describe('Parte UNO: POST /character', () => {
-    it('should return status 404 and corresponding text if any of the mandatory parameters is not send', async () => {
+    xit('should return status 404 and corresponding text if any of the mandatory parameters is not send', async () => {
       const res = await request(app).post('/character');
       expect(res.statusCode).toBe(404);
       expect(res.text).toBe('Falta enviar datos obligatorios');
     });
   
-    it('should return status 201 and character object if the character was succesfully created', async () => {
+    xit('should return status 201 and character object if the character was succesfully created', async () => {
       const res = await request(app)
                           .post('/character')
                           .send({code: 'FRAN', name: 'Franco', hp: 100.0, mana: 120.0});
@@ -30,7 +30,7 @@ describe('Character Routes', () => {
       });
     });
   
-    it('should return status 404 and corresponding text if the database creation fails', async () => {
+    xit('should return status 404 and corresponding text if the database creation fails', async () => {
       const res = await request(app)
                           .post('/character')
                           .send({code: 'FRANCO', name: 'Franco', hp: 100.0, mana: 120.0});
@@ -59,7 +59,7 @@ describe('Character Routes', () => {
     })
 
     describe('Parte UNO', () => {
-      it('should return status 200 and the list of all characters', async () => {
+      xit('should return status 200 and the list of all characters', async () => {
         const res = await request(app).get('/character');
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual([
@@ -69,7 +69,7 @@ describe('Character Routes', () => {
         ])
       })
   
-      it('EXTRA: should return status 200 and the list of all characters with certain attributes', async () => {
+      xit('EXTRA: should return status 200 and the list of all characters with certain attributes', async () => {
         const res = await request(app).get('/character?name=true&hp=true');
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual([
@@ -79,7 +79,7 @@ describe('Character Routes', () => {
         ])
       })
   
-      it('should list all characters that match with the race filter', async () => {
+      xit('should list all characters that match with the race filter', async () => {
         const res = await request(app).get('/character?race=Human');
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual([
@@ -88,13 +88,13 @@ describe('Character Routes', () => {
         ])
       })
   
-      it('should return status 404 and the correct message if character\'s code is invalid', async () => {
+      xit('should return status 404 and the correct message if character\'s code is invalid', async () => {
         const res = await request(app).get('/character/FIFTH');
         expect(res.statusCode).toBe(404);
         expect(res.text).toBe('El código FIFTH no corresponde a un personaje existente');
       })
   
-      it('should return the correct character search by code', async () => {
+      xit('should return the correct character search by code', async () => {
         const res = await request(app).get('/character/TWO');
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual(
@@ -104,7 +104,7 @@ describe('Character Routes', () => {
     })
 
     describe('Parte DOS', () => {
-      it('should list all characters that match with the race and the age filters', async () => {
+      xit('should list all characters that match with the race and the age filters', async () => {
         await Character.create({code: 'FOUR', name: 'Fourth', hp: 48.0, mana: 65.0, age: 27});
         const res = await request(app).get('/character?race=Human&age=27');
         expect(res.statusCode).toBe(200);
@@ -113,7 +113,7 @@ describe('Character Routes', () => {
         ])
       })
   
-      it('should list all characters with less than 25 years', async () => {
+      xit('should list all characters with less than 25 years', async () => {
         const res = await request(app).get('/character/young');
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual([
@@ -122,7 +122,7 @@ describe('Character Routes', () => {
         ])
       })
   
-      it('should update attribute wich are null with value passed by query', async () => {
+      xit('should update attribute wich are null with value passed by query', async () => {
         const five = Character.create({code: 'FIVE', name: 'Fifth', hp: 15.0, mana: 500.0});
         const six = Character.create({code: 'SIX', name: 'Sixth', hp: 305.0, mana: 23.0, age: 35});
         const seven = Character.create({code: 'SEVEN', name: 'Seventh', hp: 305.0, mana: 23.0});
@@ -137,12 +137,12 @@ describe('Character Routes', () => {
         expect(res.text).toBe('Personajes actualizados');
       })
   
-      it('should return the year joined with the phrase \'years old\'', async () => {
+      xit('should return the year joined with the phrase \'years old\'', async () => {
         const characterOne = await Character.findByPk('ONE');
         expect(characterOne.age).toBe('27 years old');
       })
   
-      it('should add the abilities to the character', async () => {
+      xit('should add the abilities to the character', async () => {
         await request(app)
                 .put('/character/addAbilities')
                 .send({
@@ -161,7 +161,7 @@ describe('Character Routes', () => {
         ]))
       })
   
-      it('should return all the characters with their roles associated', async () => {
+      xit('should return all the characters with their roles associated', async () => {
         const res = await request(app).get('/character/roles/ONE');
         expect(res.body.name).toBe('First');
         expect(res.body.Roles).toEqual([
